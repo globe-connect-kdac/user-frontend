@@ -8,6 +8,8 @@ import Register from './Screens/Register';
 import Home from './Screens/Home';
 import AddPost from './Screens/AddPost';
 import CommunityGrid from './Screens/CommunityGrid';
+import UserProfile from './Screens/UserProfile';
+import CommunityProfile from './Screens/CommunityProfile';
 
 
 function App() {
@@ -16,9 +18,11 @@ function App() {
       <Route path='/' element = {<Login/>} ></Route>
       <Route path='/login' element = {<Login/>} ></Route>
       <Route path='/signup' element = {<Register/>} ></Route>
-      <Route path='/home' element ={<Home/>}></Route>
-      <Route path='/add-post' element ={<AddPost/>}></Route>
-      <Route path='/explore-communities' element ={<CommunityGrid/>}></Route>
+      <Route path='/home' element = {<Home/>}></Route>
+      <Route path='/add-post' element = {<AddPost/>}></Route>
+      <Route path='/explore-communities' element = {<CommunityGrid/>}></Route>
+      <Route path='/user-profile' element = {<UserProfile/>}></Route>
+      <Route path='/community-profile' element = {<CommunityProfile/>}></Route>
     </Routes>
 
     <ToastContainer/>

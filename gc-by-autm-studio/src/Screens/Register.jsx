@@ -100,7 +100,7 @@ const Register = () => {
 
             </div>
             <div className="loginAndRegisterLinks">
-                 <p>Already have account? <Link to='/login' style={{color:"#0069ad", textDecoration:"none"}}>Login</Link></p>
+                 <p>Already have account? <Link to='/user-profile' style={{color:"#0069ad", textDecoration:"none"}}>Login</Link></p>
             </div>
             <div className="registerButtonHolder">
                 <button onClick={onRegisterClicked}>Create Account</button>

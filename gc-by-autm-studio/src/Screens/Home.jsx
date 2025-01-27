@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ExploreCommunity from "../Components/ExploreCommunities/ExploreCommunity";
 import NavBar from "../Components/NavBar/NavBar";
@@ -60,7 +60,7 @@ const Home = () => {
                             </svg>
                             Home
                         </button>
-                        <button>
+                        <button >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
@@ -91,7 +91,7 @@ const Home = () => {
                                 <circle cx="12" cy="8" r="4" />
                                 <path d="M16 20H8c-2.67 0-4-1.33-4-4v-1c0-2.67 1.33-4 4-4h8c2.67 0 4 1.33 4 4v1c0 2.67-1.33 4-4 4z" />
                             </svg>
-                            My Profile
+                            <Link to='/user-profile' style={{color:"#dbdbdb", textDecoration:"none"}}>My Profile</Link>
                         </button>
                         <button onClick={toggleAddPostPopup}>
                             <svg
