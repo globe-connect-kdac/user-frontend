@@ -14,6 +14,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');  
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [userName, setUserName] = useState('');
 
     const navigate = useNavigate()
 
@@ -31,6 +32,10 @@ const Register = () => {
         {
           toast.warn('Please Enter Email');
         }
+        else if(userName.length === 0)
+        {
+              toast.warn('Please Enter Username');
+        }
         else if(password.length === 0)
         {
           toast.warn('Please Enter Password');
@@ -46,7 +51,7 @@ const Register = () => {
         else
         {
             navigate('/login');
-          const result = await signup(firstName, lastName, password, email);
+          const result = await signup(firstName, lastName, password, email, userName);
           console.log(result);
           if(result.affectedRows == 1)
           {
@@ -83,6 +88,12 @@ const Register = () => {
                 }}
                     type='email'
                     placeholder="Email" />
+
+            <input onChange={(e) => {
+                    setUserName(e.target.value);
+                }}
+                    type='text'
+                    placeholder="Username" />      
 
 
                 <input onChange={(e) => {
