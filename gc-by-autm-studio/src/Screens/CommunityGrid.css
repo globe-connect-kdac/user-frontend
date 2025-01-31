@@ -48,7 +48,7 @@ body
     /* align-items: center; */
     flex-wrap: wrap;
     gap: 1vw;
-    margin: 0vh 0 0 10vw;
+    margin: 0vh 0 0 0vw;
 }
 .card
 {
@@ -69,8 +69,22 @@ body
 .cardTop
 {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: 1vh 1vw;
+    /* background-color: red; */
+}
+.cardTop h2
+{
+    font-size: 22px;
+}
+.cardTop p
+{
+    font-size: 16px;
+    font-style: italic;
+    margin-top: -2vh;
+    text-transform: lowercase;
 }
 
 .cardMiddle
@@ -99,12 +113,20 @@ body
 .buttonHolder button
 {
     border: none;
-    padding: 1vh 3vw;
+    cursor: pointer;
+    padding: 1.5vh 3vw;
     background-color: #000;
     color: #fff;
     border-radius: 20px;
     outline: none;
     border: none;
+    font-size: 16px;
+    transition-duration: 0.3s;
     width: 50%;
+}
+.buttonHolder button:hover
+{
+    background-color: #1f1f1f;
+
 }
 

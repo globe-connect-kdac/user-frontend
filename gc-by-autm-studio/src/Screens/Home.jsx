@@ -8,13 +8,14 @@ import Popular from "../Components/PopularCommunities/Popular";
 import PostBlock from "../Components/Post/PostBlock";
 import addPostImg from "../Images/add.png";
 import mostLiked from "../Images/favorite.png";
-import AddPost from "../Screens/AddPost"; // Ensure correct path
+import AddPost from "../Screens/AddPost"; 
+import { getPosts } from "../Services/Post"
 
 import "./Home.css";
 
 const Home = () => {
     const navigate = useNavigate();
-    const [posts, setPosts] = useState([]);
+    // const [posts, setPosts] = useState([]);
     const [isAddPostOpen, setIsAddPostOpen] = useState(false); // New state for popup
     const [isDarkMode, setIsDarkMode] = useState(false); // Theme state
 
@@ -33,6 +34,50 @@ const Home = () => {
         const currentTheme = sessionStorage.getItem("isDarkMode") === "true";
         setIsDarkMode(currentTheme);
     }, []);
+
+
+  /*====================== GET ALL POSTS API CALL ===================== */
+
+  const [posts, setPosts] = useState([])
+
+  const onLoadPosts = async () => {
+      const result = await getPosts();
+      
+      if (result != null) {
+          setPosts(result);
+        //   console.log("result: " + JSON.stringify(result));
+      }
+      else {
+          toast.warn("Error Occurred on Our Side");
+      }
+
+/*=================== FOR MANAGING LOGINS =================== */
+
+      // const token = sessionStorage.getItem("token");
+      // if(token != null)
+      // {
+      //     const result = await getPosts();
+      //     if (result != null) {
+      //         setPosts(result);
+      //     }
+      //     else {
+      //         toast.warn("Error Occurred on Our Side");
+      //     }
+      // }
+      // else
+      // {
+      //     navigate('/login')
+      // }
+
+
+  }
+
+  useEffect(() => {
+      return () => {
+          onLoadPosts();
+      }
+  }, [])
+
 
     return (
         <div className={isDarkMode ? "light-theme" : "dark-theme"}>
@@ -140,9 +185,26 @@ const Home = () => {
                     </div>
 
                     <div className="mainHomePagePostsHolder">
-                        <PostBlock />
-                        <PostBlock />
-                        <PostBlock />
+                        
+                    {
+                        posts.map((post) => {
+                            return (
+                                 <PostBlock
+                                    postId={post.postId}
+                                    content={post.captions}
+                                    title={post.title}
+                                    like={post.countUpvote}
+                                    dislike={post.countdownVote}
+                                    comment={post.commentsCount}
+                                    postedOn={post.createdOn}
+                                />
+                        )
+                    })
+                    }
+                        
+                        {/* <PostBlock /> */}
+                        {/* <PostBlock />
+                        <PostBlock /> */}
                     </div>
 
                     <div className="rightSideMainHolder">

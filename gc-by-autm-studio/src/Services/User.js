@@ -1,18 +1,19 @@
 import axios from 'axios';
 import { createUrl } from '../utils'
 
-export const signup = async(firstName, lastName, password, email)=>{
+export const signup = async(firstName, lastName, email, userName, password)=>{
 
     try {
       
-      const url = createUrl('users/signup');
+      const url = createUrl('users/add-user');
       const body = {
-        firstName, 
-        lastName, 
-        password,
-        email
-        
+          email,
+          password,
+          firstName,
+          lastName,
+          userName
       }
+      // console.log('Sending request with body:', body);
       const response = await axios.post(url, body);
       return response.data;
     } 

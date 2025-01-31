@@ -50,8 +50,8 @@ const Register = () => {
         }
         else
         {
-            navigate('/login');
-          const result = await signup(firstName, lastName, password, email, userName);
+          navigate('/login');
+          const result = await signup(firstName, lastName, email, userName, password);
           console.log(result);
           if(result.affectedRows == 1)
           {

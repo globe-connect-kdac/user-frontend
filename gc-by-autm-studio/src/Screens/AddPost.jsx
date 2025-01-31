@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { addpost } from "../Services/Post";
+// import { addpost } from "../Services/Post";
 import "./AddPost.css";
 
 const AddPost = () => {
