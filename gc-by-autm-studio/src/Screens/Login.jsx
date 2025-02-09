@@ -10,24 +10,60 @@ const Login = () => {
 
     const navigate = useNavigate()
 
-    const onSignInClicked = async() => {
+    // const onSignInClicked = async() => {
         
-        if(email.length === 0)
-        {
-          toast.warn('Please Enter Email');
-        }
-        else if(password.length === 0)
-        {
-          toast.warn('Please Enter Password');
-        }
-         else {
+    //     if(email.length === 0)
+    //     {
+    //       toast.warn('Please Enter Email');
+    //     }
+    //     else if(password.length === 0)
+    //     {
+    //       toast.warn('Please Enter Password');
+    //     }
+    //      else {
 
-            // We'll check login credentials here by comparing with Db
-             navigate('/home')
+    //         // We'll check login credentials here by comparing with Db
+    //          navigate('/home')
           
-        }
+    //     }
      
-    }
+    // }
+
+
+    const onSignInClicked = async () => {
+        if (email.length === 0) {
+            toast.warn("Please Enter Email");
+        } else if (password.length === 0) {
+            toast.warn("Please Enter Password");
+        } else {
+            try {
+                const response = await fetch("http://localhost:8080/users/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+    
+                if (response.ok) {
+                    const userData = await response.json();
+                    console.log(userData);
+                    
+                    sessionStorage.setItem("userId", userData.id);
+                    sessionStorage.setItem("userName", userData.userName);
+                    toast.success("Login Successful!");
+                    navigate("/home");
+                } else {
+                    toast.error("Invalid Credentials!");
+                }
+            } catch (error) {
+                console.error("Login failed", error);
+                toast.error("Something went wrong!");
+            }
+        }
+    };
+    
+
 
     return <>
  

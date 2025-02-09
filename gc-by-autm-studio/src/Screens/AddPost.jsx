@@ -13,9 +13,7 @@ const AddPost = () => {
         if (content.length === 0 && attachments.length === 0) {
             toast.warn("Please type something or attach a file before submitting...!!!");
         } else {
-            const userIdFromSessionStorage = sessionStorage.getItem("userId");
-            console.log(userIdFromSessionStorage);
-
+            
             const result = await addpost(content, userIdFromSessionStorage);
             console.log(result);
 

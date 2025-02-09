@@ -18,54 +18,25 @@ const Register = () => {
 
     const navigate = useNavigate()
 
-    const onRegisterClicked = async() => {
-
-        if(firstName.length === 0)
-        {
-          toast.warn('Please Enter First Name');
+    const onRegisterClicked = async () => {
+        if (!firstName || !lastName || !email || !userName || !password || !confirmPassword) {
+            toast.warn('Please fill all fields');
+            return;
         }
-        else if(lastName.length === 0)
-        {
-          toast.warn('Please Enter Last Name');
+        if (password !== confirmPassword) {
+            toast.warn('Passwords do not match');
+            return;
         }
-        else if(email.length === 0)
-        {
-          toast.warn('Please Enter Email');
+    
+        const result = await signup(firstName, lastName, email, userName, password);
+        if (result.id) { 
+            toast.success('User Registered Successfully');
+            navigate('/login');
+        } else {
+            toast.error(result.error || 'Registration failed');
         }
-        else if(userName.length === 0)
-        {
-              toast.warn('Please Enter Username');
-        }
-        else if(password.length === 0)
-        {
-          toast.warn('Please Enter Password');
-        }
-        else if(confirmPassword.length === 0)
-        {
-          toast.warn('Please Conrim Password');
-        }
-        else if(password !== confirmPassword)
-        {
-          toast.warn('Password Dosent match');
-        }
-        else
-        {
-          navigate('/login');
-          const result = await signup(firstName, lastName, email, userName, password);
-          console.log(result);
-          if(result.affectedRows == 1)
-          {
-              toast.success('User Registered Successfully');
-              navigate('/login');
-          }
-          else
-          {
-              toast.error(result['error']);
-          }
-        }
-  
-       
-    }
+    };
+    
 
     return (
         <div className="registerFormHolder">
@@ -111,7 +82,7 @@ const Register = () => {
 
             </div>
             <div className="loginAndRegisterLinks">
-                 <p>Already have account? <Link to='/user-profile' style={{color:"#0069ad", textDecoration:"none"}}>Login</Link></p>
+                 <p>Already have account? <Link to='/login' style={{color:"#0069ad", textDecoration:"none"}}>Login</Link></p>
             </div>
             <div className="registerButtonHolder">
                 <button onClick={onRegisterClicked}>Create Account</button>

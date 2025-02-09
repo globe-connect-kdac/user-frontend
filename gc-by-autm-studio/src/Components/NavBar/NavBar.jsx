@@ -7,8 +7,8 @@ const NavBar = () => {
     const navigate = useNavigate();
 
     const onLogout = () => {
-        
-        navigate('/login')
+        sessionStorage.clear(); // Clear session storage
+        navigate('/login', { replace: true }); // Navigate to login and replace history
     }
     
     const goToAddPost = ()=>{
