@@ -36,8 +36,9 @@ const UserProfile = () => {
     };
 
     const handleFileChange = (e) => {
-        setFormData({ ...formData, profilePicture: URL.createObjectURL(e.target.files[0]) });
+        setFormData({ ...formData, profilePicture: e.target.files[0] }); 
     };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();

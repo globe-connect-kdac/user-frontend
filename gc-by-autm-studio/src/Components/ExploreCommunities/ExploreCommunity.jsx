@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { createUrl } from '../../utils';
 import './ExploreCommunity.css';
 
 const ExploreCommunity = () => {
     const navigate = useNavigate();
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState({
-        communityName: '',
-        contentType: '',
-        profileImage: null,
+        title: '',
         description: '',
+        category: '',
+        profileImage: null,
     });
 
     const communityGrid = () => {
@@ -25,12 +28,31 @@ const ExploreCommunity = () => {
         setFormData({ ...formData, profileImage: e.target.files[0] });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form Data:', formData);
-        alert('Community created successfully!');
-        setShowForm(false);
+    
+        const ownerId = sessionStorage.getItem('userId'); // Assuming the user ID is saved in sessionStorage
+    
+        const formDataToSend = new FormData();
+        formDataToSend.append('title', formData.title);
+        formDataToSend.append('description', formData.description);
+        formDataToSend.append('category', formData.category); // Send the enum value here
+        formDataToSend.append('profileImage', formData.profileImage);
+        formDataToSend.append('owner_id', ownerId);  // Add owner_id from session storage
+    
+        try {
+            const response = await axios.post(createUrl('community/add-community'), formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            toast.success(response.data.message);
+            setShowForm(false);
+        } catch (error) {
+            toast.error('Error creating community');
+        }
     };
+    
 
     return (
         <>
@@ -50,35 +72,32 @@ const ExploreCommunity = () => {
                         <h3>Create a New Community</h3>
                         <form onSubmit={handleSubmit}>
                             <div className="formField">
-                                <label htmlFor="communityName">Community Name:</label>
+                                <label htmlFor="title">Community Name:</label>
                                 <input
                                     type="text"
-                                    id="communityName"
-                                    name="communityName"
-                                    value={formData.communityName}
+                                    id="title"
+                                    name="title"
+                                    value={formData.title}
                                     onChange={handleFormChange}
                                     required
                                 />
                             </div>
 
                             <div className="formField">
-                                <label htmlFor="contentType">Content Type:</label>
+                                <label htmlFor="category">Content Type:</label>
                                 <select
-                                    id="contentType"
-                                    name="contentType"
-                                    value={formData.contentType}
+                                    id="category"
+                                    name="category"
+                                    value={formData.category}
                                     onChange={handleFormChange}
                                     required
                                 >
                                     <option value="">Select a type</option>
-                                    <option value="science">Science</option>
-                                    <option value="technology">Technology</option>
-                                    <option value="coding">Coding</option>
-                                    <option value="arts">Arts</option>
-                                    <option value="trending news">Trending News</option>
-                                    <option value="music">Music</option>
-                                    <option value="gaming">Gaming</option>
-                                    <option value="other">Other</option>
+                                    <option value="SCIENCE_AND_TECHNOLOGY">Science & Technology</option>
+                                    <option value="SPORTS">Sports</option>
+                                    <option value="NEWS">News</option>
+                                    <option value="HUMANITIES">Humanities</option>
+                                    <option value="FINANCE">Finance</option>
                                 </select>
                             </div>
 

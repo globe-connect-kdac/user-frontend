@@ -22,7 +22,7 @@ export const signin = async (email, password) => {
   } catch (err) {
       return { status: 'error', error: err.response?.data || err.message };
   }
-};
+};                                          
 
 
 export const updateUserProfile = async (formData) => {

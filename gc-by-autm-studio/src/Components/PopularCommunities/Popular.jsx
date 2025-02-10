@@ -1,33 +1,47 @@
-import { Link } from 'react-router-dom'
-import './Popular.css'
-import Avatar from './women.png'
+import { Link } from 'react-router-dom';
+import './Popular.css';
+import { getCommunities } from '../../Services/Community';
+import { useEffect, useState } from 'react';
 
 const Popular = () => {
+    const [communities, setCommunities] = useState([]);
 
-    return <>
+    useEffect(() => {
+        const fetchCommunities = async () => {
+            const result = await getCommunities();
+            if (result) {
+                setCommunities(result);
+            }
+        };
+
+        fetchCommunities();
+    }, []);
+
+    return (
         <div className="popularHolder">
             <h2>Top Communities</h2>
             <div className="communitiesNameHolder">
-                
-                <Link to='/community-profile' style={{color:"#dbdbdb", textDecoration:"none"}}><a><img src='https://cdn.logojoy.com/wp-content/uploads/20230412135724/green-minimalist-logo.png'/>Burokratik</a></Link>
-                <Link to='/community-profile' style={{color:"#dbdbdb", textDecoration:"none"}}><a><img src='https://cdn.logojoy.com/wp-content/uploads/20191030162930/apple%402x-1024x422.png'/>Immersive Garden</a></Link>
-                <Link to='/community-profile' style={{color:"#dbdbdb", textDecoration:"none"}}> <a><img src='https://cdn.logojoy.com/wp-content/uploads/20191030163048/Uber%402x-600x247.png'/>DEPT</a></Link>
-                <Link to='/community-profile' style={{color:"#dbdbdb", textDecoration:"none"}}><a><img src='https://cdn.logojoy.com/wp-content/uploads/20230412135724/green-minimalist-logo.png'/>Burokratik</a></Link>
-                <Link to='/community-profile' style={{color:"#dbdbdb", textDecoration:"none"}}><a><img src='https://cdn.logojoy.com/wp-content/uploads/20230412135724/green-minimalist-logo.png'/>Burokratik</a></Link>
-                <Link to='/community-profile' style={{color:"#dbdbdb", textDecoration:"none"}}><a><img src='https://cdn.logojoy.com/wp-content/uploads/20230412135724/green-minimalist-logo.png'/>Burokratik</a></Link>
-                
-               
-                
-                <a><img src='https://cdn.logojoy.com/wp-content/uploads/20191030163119/Nike%402x-1024x422.png'/>Resn</a>
-                <a><img src='https://cdn.logojoy.com/wp-content/uploads/20191030163138/louisVuitton%402x-1024x422.png'/>Burokratik</a>
-                <a><img src={Avatar}/>Immersive Garden</a>
-                <a><img src={Avatar}/>DEPT</a>
-                <a><img src={Avatar}/>We are AUTM</a>
-                <a><img src={Avatar}/>Resn</a>
+                {communities.map((community) => {
+                    const profileImageSrc = community.profileImage
+                        ? `data:image/png;base64,${community.profileImage}`
+                        : 'https://rukminim2.flixcart.com/image/850/1000/l2tcfbk0/poster/c/t/i/large-shinchan-flex-poster-for-room-mo-2485-24x36-flex-bd-original-image2t9wt62reyg.jpeg?q=90&crop=false'; // Default image
+
+                    return (
+                        <Link
+                            key={community.id}
+                            to={`/community-profile/${encodeURIComponent(community.title)}`}
+                            style={{ color: "#dbdbdb", textDecoration: "none" }}
+                        >
+                            <div className="communityItem">
+                                <img src={profileImageSrc} alt={community.title} />
+                                <span>{community.title}</span>
+                            </div>
+                        </Link>
+                    );
+                })}
             </div>
         </div>
-    </>
+    );
+};
 
-}
-
-export default Popular
+export default Popular;

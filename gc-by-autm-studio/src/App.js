@@ -22,7 +22,9 @@ function App() {
       <Route path='/add-post' element = {<AddPost/>}></Route>
       <Route path='/explore-communities' element = {<CommunityGrid/>}></Route>
       <Route path='/user-profile' element = {<UserProfile/>}></Route>
-      <Route path='/community-profile' element = {<CommunityProfile/>}></Route>
+      {/* <Route path='/community-profile' element = {<CommunityProfile/>}></Route> */}
+      <Route path="/community-profile/:title" element={<CommunityProfile />} />
+
     </Routes>
 
     <ToastContainer/>
