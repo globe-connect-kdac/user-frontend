@@ -1,26 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import NavBar from '../Components/NavBar/NavBar';
+import { updateUserProfile } from '../Services/User'; // Assuming this is the function that calls the backend
 import './UserProfile.css';
 
 const UserProfile = () => {
     const [showForm, setShowForm] = useState(false);
-    
-    // The data that is used to display the profile content
-    const [profileContent, setProfileContent] = useState({
-        username: 'suyash_surve2002',
-        name: 'Suyash Surve',
-        email: 'suyash@example.com',
-        profilePicture: 'https://assets.awwwards.com/awards/avatar/1575266/64954d4fa9f85175182279.png',
-    });
-
-    // The data that is used in the form and can be modified
     const [formData, setFormData] = useState({
-        username: 'suyash_surve2002',
-        name: 'Suyash Surve',
+        username: sessionStorage.getItem("userName") || "Guest",
+        firstName: sessionStorage.getItem("firstName") || "",
+        lastName: sessionStorage.getItem("lastName") || "",
         email: 'suyash@example.com',
         password: '',
-        profilePicture: 'https://assets.awwwards.com/awards/avatar/1575266/64954d4fa9f85175182279.png',
+        profilePicture: sessionStorage.getItem("profileImage"),
     });
+
+    const [profileContent, setProfileContent] = useState({
+        username: sessionStorage.getItem("userName") || "Guest",
+        name: `${sessionStorage.getItem("firstName")} ${sessionStorage.getItem("lastName")}` || "Suyash Surve",
+        email: "suyash@example.com",
+        profilePicture: sessionStorage.getItem("profileImage") || "https://via.placeholder.com/150",
+    });
+
+    useEffect(() => {
+        setProfileContent(prev => ({
+            ...prev,
+            username: formData.username,
+            name: `${formData.firstName} ${formData.lastName}`,
+            profilePicture: formData.profilePicture,
+        }));
+    }, [formData]);
 
     const handleFormChange = (e) => {
         const { name, value } = e.target;
@@ -31,18 +39,27 @@ const UserProfile = () => {
         setFormData({ ...formData, profilePicture: URL.createObjectURL(e.target.files[0]) });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Update the profileContent with the modified form data
-        setProfileContent({ 
-            username: formData.username,
-            name: formData.name,
-            email: formData.email,
-            profilePicture: formData.profilePicture
-        });
-        setShowForm(false);
-        alert('Profile updated successfully!');
+        try {
+            const response = await updateUserProfile(formData);
+            if (response.message === 'User updated successfully...!!!'+sessionStorage.getItem("userId")) {
+                setProfileContent({
+                    username: formData.username,
+                    name: `${formData.firstName} ${formData.lastName}`,
+                    email: formData.email,
+                    profilePicture: formData.profilePicture || profileContent.profilePicture,
+                });
+                setShowForm(false);
+                alert('Profile updated successfully!');
+            } else {
+                alert('Failed to update profile');
+            }
+        } catch (error) {
+            alert('An error occurred while updating profile');
+        }
     };
+    
 
     return (
         <>
@@ -59,11 +76,10 @@ const UserProfile = () => {
                             <p>I am because he is</p>
                             <div className="statsHolder">
                                 <p><b>3</b> Posts</p>
-                                <p><b>4</b> Community Joined</p>
+                                <p><b>4</b> Communities Joined</p>
                             </div>
                         </div>
                     </div>
-
                     <button onClick={() => setShowForm(true)}>Edit Profile</button>
                 </div>
 
@@ -71,23 +87,14 @@ const UserProfile = () => {
                 <h2 style={{ padding: "5vh 0 0 5vw" }}>Recent Posts</h2>
                 <div className="postsHolder">
                     <div className="recentPosts">
-                        <p> <b>12/01/2025</b></p>
+                        <p><b>12/01/2025</b></p>
                         <p>Transitioning from Python to C++ can be challenging due to differences in syntax, memory management, and object-oriented concepts</p>
                     </div>
-                    <div className="recentPosts">
-                        <p> <b>12/01/2025</b></p>
-                        <p>Transitioning from Python to C++ can be challenging due to differences in syntax, memory management, and object-oriented concepts</p>
-                    </div>
-                    <div className="recentPosts">
-                        <p> <b>12/01/2025</b></p>
-                        <p>Transitioning from Python to C++ can be challenging due to differences in syntax, memory management, and object-oriented concepts</p>
-                    </div>
-                  
                 </div>
             </div>
 
             {showForm && (
-                <div className="profileEditOverlay">
+                <div className="profileEditOverlay" style={{zIndex:10000000000}}>
                     <div className="profileEditContainer">
                         <h3>Edit Profile</h3>
                         <form onSubmit={handleSubmit}>
@@ -99,19 +106,28 @@ const UserProfile = () => {
                                     name="username"
                                     value={formData.username}
                                     onChange={handleFormChange}
-                                    // required
                                 />
                             </div>
 
                             <div className="formField">
-                                <label htmlFor="name">Full Name:</label>
+                                <label htmlFor="firstName">First Name:</label>
                                 <input
                                     type="text"
-                                    id="name"
-                                    name="name"
-                                    value={formData.name}
+                                    id="firstName"
+                                    name="firstName"
+                                    value={formData.firstName}
                                     onChange={handleFormChange}
-                                    // required
+                                />
+                            </div>
+
+                            <div className="formField">
+                                <label htmlFor="lastName">Last Name:</label>
+                                <input
+                                    type="text"
+                                    id="lastName"
+                                    name="lastName"
+                                    value={formData.lastName}
+                                    onChange={handleFormChange}
                                 />
                             </div>
 
@@ -123,7 +139,6 @@ const UserProfile = () => {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleFormChange}
-                                    // required
                                 />
                             </div>
 
@@ -135,7 +150,6 @@ const UserProfile = () => {
                                     name="password"
                                     value={formData.password}
                                     onChange={handleFormChange}
-                                    // required
                                 />
                             </div>
 

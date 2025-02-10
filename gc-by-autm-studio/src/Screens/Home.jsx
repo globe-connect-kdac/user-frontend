@@ -51,25 +51,6 @@ const Home = () => {
           toast.warn("Error Occurred on Our Side");
       }
 
-/*=================== FOR MANAGING LOGINS =================== */
-
-      // const token = sessionStorage.getItem("token");
-      // if(token != null)
-      // {
-      //     const result = await getPosts();
-      //     if (result != null) {
-      //         setPosts(result);
-      //     }
-      //     else {
-      //         toast.warn("Error Occurred on Our Side");
-      //     }
-      // }
-      // else
-      // {
-      //     navigate('/login')
-      // }
-
-
   }
 
   useEffect(() => {

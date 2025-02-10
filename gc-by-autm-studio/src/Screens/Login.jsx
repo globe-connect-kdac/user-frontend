@@ -11,7 +11,7 @@ const Login = () => {
     const navigate = useNavigate()
 
     // const onSignInClicked = async() => {
-        
+
     //     if(email.length === 0)
     //     {
     //       toast.warn('Please Enter Email');
@@ -24,9 +24,9 @@ const Login = () => {
 
     //         // We'll check login credentials here by comparing with Db
     //          navigate('/home')
-          
+
     //     }
-     
+
     // }
 
 
@@ -44,13 +44,28 @@ const Login = () => {
                     },
                     body: JSON.stringify({ email, password }),
                 });
-    
+
                 if (response.ok) {
                     const userData = await response.json();
                     console.log(userData);
-                    
+
+                    // Save data in sessionStorage
                     sessionStorage.setItem("userId", userData.id);
                     sessionStorage.setItem("userName", userData.userName);
+                    sessionStorage.setItem("userId", userData.id);
+                    sessionStorage.setItem("userName", userData.userName);
+                    sessionStorage.setItem("email", userData.email);
+                    sessionStorage.setItem("firstName", userData.firstName);
+                    sessionStorage.setItem("lastName", userData.lastName);
+                    sessionStorage.setItem("bio", userData.bio || "");
+                    sessionStorage.setItem("dateOfBirth", userData.dateOfBirth || "");
+                    sessionStorage.setItem("createdAt", userData.createdAt);
+
+
+                    if (userData.profileImage) {
+                        sessionStorage.setItem("profileImage", `data:image/jpeg;base64,${userData.profileImage}`);
+                    }
+
                     toast.success("Login Successful!");
                     navigate("/home");
                 } else {
@@ -62,39 +77,40 @@ const Login = () => {
             }
         }
     };
-    
+
+
 
 
     return <>
- 
+
         <div className="loginFormHolder">
             <div className="glassEffect">
-            <h2>Login </h2>
-            <div className="loginInputHolder">
-                <input onChange={(e) => {
-                    setEmail(e.target.value);
-                }}
-                    type='text'
-                    placeholder="Username / Email" />
+                <h2>Login </h2>
+                <div className="loginInputHolder">
+                    <input onChange={(e) => {
+                        setEmail(e.target.value);
+                    }}
+                        type='text'
+                        placeholder="Username / Email" />
 
 
-                <input onChange={(e) => {
-                    setPassword(e.target.value);
-                }}
-                    type='password'
-                    placeholder="Create Password" />
+                    <input onChange={(e) => {
+                        setPassword(e.target.value);
+                    }}
+                        type='password'
+                        placeholder="Create Password" />
 
 
-              
+
+                </div>
+                <div style={{ margin: "2vh 0 0 0" }}>
+                    <p style={{ color: "#fff" }}>Don't have account? <Link to='/signup' style={{ color: "#0069ad", textDecoration: "none" }}>Register</Link></p>
+                </div>
+                <div className="loginButtonHolder">
+                    <button onClick={onSignInClicked}>Login</button>
+                </div>
             </div>
-            <div style={{margin:"2vh 0 0 0"}}>
-                <p style={{color:"#fff"}}>Don't have account? <Link to='/signup' style={{color:"#0069ad",textDecoration:"none"}}>Register</Link></p>
-            </div>
-            <div className="loginButtonHolder">
-                <button onClick={onSignInClicked}>Login</button>
-            </div>
-            </div>
-            
+
         </div>
 
     </>
