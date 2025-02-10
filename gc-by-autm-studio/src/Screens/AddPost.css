@@ -147,3 +147,11 @@
     align-items: center;
 }
 
+select
+{
+    color:#0e1113;
+}
+select option
+{
+    color: #0e1113;
+}
