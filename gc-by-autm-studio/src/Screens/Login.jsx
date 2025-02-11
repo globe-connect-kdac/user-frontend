@@ -104,7 +104,7 @@ const Login = () => {
 
                 </div>
                 <div style={{ margin: "2vh 0 0 0" }}>
-                    <p style={{ color: "#fff" }}>Don't have account? <Link to='/signup' style={{ color: "#0069ad", textDecoration: "none" }}>Register</Link></p>
+                    <p style={{ color: "#fff", fontWeight:500 }}>Don't have account? <Link to='/signup' style={{ color: "#000", textDecoration: "none" }}>Register</Link></p>
                 </div>
                 <div className="loginButtonHolder">
                     <button onClick={onSignInClicked}>Login</button>

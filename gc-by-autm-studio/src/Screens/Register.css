@@ -7,6 +7,8 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-image: url('https://support.discord.com/hc/theming_assets/01HZPN9XSQTZNQ61ZY6FH47BS1');
+    background-size: contain;
 }
 
 .registerInputHolder {
@@ -42,7 +44,7 @@
 .registerButtonHolder button {
     width: 20vw;
     padding: 1.75vh 0;
-    background-color: #0069ad;
+    background-color: #0d0d0d;
     color: #fff;
     cursor: pointer;
     border: none;

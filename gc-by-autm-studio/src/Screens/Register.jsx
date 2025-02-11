@@ -36,7 +36,8 @@ const Register = () => {
         }
 
         const result = await signup(formData);
-        if (result.id) {
+        console.log(result.message)
+        if (result.message) {
             toast.success('User Registered Successfully');
             navigate('/login');
         } else {
@@ -45,7 +46,7 @@ const Register = () => {
     };
 
     return (
-        <div className="registerFormHolder">
+        <div className="registerFormHolder" >
             <h2>Create Your Account</h2>
             <div className="registerInputHolder">
                 <input type="text" placeholder="First Name" onChange={(e) => setFirstName(e.target.value)} />
@@ -57,7 +58,7 @@ const Register = () => {
                 <input type="file" accept="image/*" onChange={(e) => setProfileImage(e.target.files[0])} />
             </div>
             <div className="loginAndRegisterLinks">
-                <p>Already have an account? <Link to='/login' style={{ color: "#0069ad", textDecoration: "none" }}>Login</Link></p>
+                <p>Already have an account? <Link to='/login' style={{ color: "#000", textDecoration: "none" }}>Login</Link></p>
             </div>
             <div className="registerButtonHolder">
                 <button onClick={onRegisterClicked}>Create Account</button>

@@ -8,10 +8,10 @@ import Avatar from './Avatar.png'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import CommentModal from "./CommentModal";
+
 
 const PostBlock = ({ postId, content, title, like, dislike, comment, postedOn}) => {
-    const [showCommentModal, setShowCommentModal] = useState(false);
+
     const uId = localStorage.getItem("userId")
 
     const [likes, setLikes] = useState(1219);
@@ -49,14 +49,12 @@ return <>
                     </svg>
                     <p>{like} Likes</p>
                 </div>
-                <div className='commentContainer' onClick={() => setShowCommentModal(true)}>
-                        <img src={CommentIcon} alt="Comment" />
-                        <p>{comment} Comments</p>
-                    </div>
+                <div className='commentContainer'>
+                    <img src={Comment} />
+                    <p>{comment} Comments</p>
+                </div>
             </div>
-            {showCommentModal && (
-                <CommentModal postId={postId} onClose={() => setShowCommentModal(false)} />
-            )}
+
         </div>
 
 
